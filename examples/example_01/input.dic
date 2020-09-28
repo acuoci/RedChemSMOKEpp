@@ -14,10 +14,10 @@
 
 Dictionary RedChemSMOKE++
 {
-		@KineticsFolder 		..\kinetics\DRM19\kinetics-DRM19;
-		@Thermodynamics			..\kinetics\DRM19\thermo12.dat;
-		@Kinetics				..\kinetics\DRM19\drm19.dat;
-		@Transport				..\kinetics\DRM19\transport.dat;
+		@KineticsFolder 		../kinetics/DRM19/kinetics-DRM19;
+		@Thermodynamics			../kinetics/DRM19/thermo12.dat;
+		@Kinetics				../kinetics/DRM19/drm19.dat;
+		@Transport				../kinetics/DRM19/transport.dat;
 
 		@XMLInput				data.xml;
 		@Output					data.out;

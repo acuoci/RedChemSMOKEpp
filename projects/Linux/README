@@ -1,0 +1,108 @@
+----------------------------------------------------------------------------------
+RedChemSMOKE++
+----------------------------------------------------------------------------------
+The compilation procedure is entirely based on autoconf and automake tools.
+
+A. COMPULSORY LIBRARIES
+B. SUGGESTED LIBRARIES
+C. OPTIONAL LIBRARIES
+D. COMPILATION PROCEDURE
+E. NOTE ON PERFORMANCES
+
+-----------------------------------------------------------------------------------
+A. COMPULSORY LIBRARIES
+-----------------------------------------------------------------------------------
+1. OpenSMOKEpp        (https://github.com/acuoci/OpenSMOKEpp.git)
+2. OpenSMOKEppSolvers (https://github.com/acuoci/OpenSMOKEppSolvers.git)
+3. Eigen              (http://eigen.tuxfamily.org/index.php?title=Main_Page)
+4. Boost C++          (http://www.boost.org/)
+
+-----------------------------------------------------------------------------------
+B. SUGGESTED LIBRARIES (only one of the following, they are equivalent)
+-----------------------------------------------------------------------------------
+1. Intel MKL (https://software.intel.com/en-us/non-commercial-software-development)
+2. OpenBLAS  (http://www.openblas.net/)
+
+-----------------------------------------------------------------------------------
+C. OPTIONAL LIBRARIES
+-----------------------------------------------------------------------------------
+1.  SUNDIALS  	(http://computation.llnl.gov/casc/sundials/main.html)
+2.  DVODE     	(http://www.netlib.no/netlib/ode/vode.f)
+3.  ODEPACK   	(http://computation.llnl.gov/casc/odepack/odepack_home.html)
+4.  RADAU     	(http://www.unige.ch/~hairer/software.html)
+5.  MEBDF     	(http://www.dm.uniba.it/~testset/solvers/mebdfdae.php)
+6.  DASPK20   	(http://www.engineering.ucsb.edu/~cse/software.html)
+7.  SUPERLU   	(http://crd-legacy.lbl.gov/~xiaoye/SuperLU)
+8.  SUITESPARSE (http://faculty.cse.tamu.edu/davis/suitesparse.html)
+9.  BZZMATH   	(http://homes.chem.polimi.it/gbuzzi/)
+10. CEQ         (http://eccentric.mae.cornell.edu/~pope/CEQ) 
+
+-----------------------------------------------------------------------------------
+D1. PREPARATION OF CONFIGURE SCRIPT
+-----------------------------------------------------------------------------------
+
+1. Go to the projects/Linux/ folder
+
+2. Type `aclocal`
+   This generates a file `aclocal.m4` that contains macros for automake tools.
+
+3. Type `automake --add-missing`
+   Automake now reads configure.ac and the top-level `Makefile.am`, interprets
+   them (e.g. see further work has to be done in some subdirectories) and,
+   for each `Makefile.am` produces a `Makefile.in`. The argument `--add-missing` 
+   tells automake to provide default scripts for reporting errors, 
+   installing etc, so it can be omitted in the next runs.
+
+4. Type `autoconf`
+   Now autoconf builds the configure script. This produces the final, 
+   full-featured configure shell script. 
+
+-----------------------------------------------------------------------------------
+D2. COMPILATION
+-----------------------------------------------------------------------------------
+Before the real compilation, the `configure` script must be called. The `configure`
+script is responsible for getting ready to build the software on your specific
+system. It makes sure all of the dependencies for the rest of the build and 
+install process are available, and finds out whatever it needs to know to use 
+those dependencies.
+
+Several examples of `configure` scripts are available in the following folder:
+`OpenSMOKEppSolvers/projects/Linux/examples`. In particular, the user must 
+provide at least the paths to the compulsory libraries (OpenSMOKE++, 
+Eigen, RapidXML, Boost C++, and libconfig).
+
+The complete list of available options is available by typing:
+`.\configure --help`
+
+1. Call the `configure` script with proper options (see comments above). An
+   example (configuration with only mandatory libraries) is reported below:
+
+   `./configure CXX=g++ --enable-openmp=yes \
+    --prefix=/path-to-installation-folder \
+    --with-opensmoke=/path-to-opensmokepp \
+    --with-eigen=/path-to-eigen \
+    --with-boost-include=/path-to-boost-include \
+    --with-boost-lib=/path-to-boost-lib \
+    --with-libconfig-include=/path-to-libconfig-include \
+    --with-libconfig-lib=/path-to-libconfig++.a \
+    --with-mkl=/path-to-mkl \
+    --with-ceq=/path-to-libceq.a ` 
+
+   If configure succeeds, all the Makefile files are available.
+
+2. Type `make all`
+   The target `all` from the main Makefile will be worked. This target expands 
+   into all the hidden targets to first build what you requested. 
+
+3. If compilation succeeds, everything can be installed by typing:
+   `make install`
+
+-----------------------------------------------------------------------------------
+E. NOTE ON PERFORMANCES
+-----------------------------------------------------------------------------------
+If computational performances are not an issue, you can choose the quick
+compilation procedure (i.e. without dependency on external libraries). The 
+procedure is very simple, but the resulting code can be slow.
+If you need a very fast code, the advanced compilation procedure is needed. 
+In this case you need to supply information to enable the dependency
+on optional libraries.
