@@ -1,0 +1,40 @@
+//-----------------------------------------------------------------//
+//     ____                    ______ __  __  ____  _  ________    //
+//    / __ \                  /  ___ |  \/  |/ __ \| |/ /  ____|   //
+//   | |  | |_ __   ___ _ __ |  (___ | \  / | |  | | ' /| |__      //
+//   | |  | | '_ \ / _ \ '_ \ \___  \| |\/| | |  | |  < |  __|     //
+//   | |__| | |_) |  __/ | | |____)  | |  | | |__| | . \| |____    //
+//    \____/| .__/ \___|_| |_|______/|_|  |_|\____/|_|\_\______|   //
+//         | |                                                     //
+//         |_|                                                     //
+//                                                                 //
+//                http://www.opensmoke.polimi.it/                  //
+//             http://creckmodeling.chem.polimi.it/                //
+//-----------------------------------------------------------------//
+
+Dictionary RedChemSMOKE++
+{
+		@KineticsFolder 		..\kinetics\DRM19\kinetics-DRM19;
+		@Thermodynamics			..\kinetics\DRM19\thermo12.dat;
+		@Kinetics				..\kinetics\DRM19\drm19.dat;
+		@Transport				..\kinetics\DRM19\transport.dat;
+
+		@XMLInput				data.xml;
+		@Output					data.out;
+		
+		@Pressure				101325 Pa;
+		
+		@DRG					false;
+		@DRGEP					true;
+		
+		@TestingNeuralNetwork	false;
+		@TestingFitCTree		false;
+		
+		@Epsilon				0.01;
+		@KeySpecies				CH4 O2 N2;
+		
+		@TemperatureThreshold	302;
+		@ConcentrationThreshold 1e-12;
+		@RetainedThreshold		0.0;
+}
+
