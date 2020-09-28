@@ -278,13 +278,5 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-
-tests
-/projects/NetBeans/OpenSMOKE_BatchReactor/dist/
-/projects/NetBeans/OpenSMOKE_PlugFlowReactor/dist/
-/projects/NetBeans/OpenSMOKE_SurfaceBatchReactor/dist/
-/projects/NetBeans/OpenSMOKE_CHEMKIN_PreProcessor/dist/
-/projects/NetBeans/OpenSMOKE_MicrogravityDroplet/dist/
-/projects/NetBeans/OpenSMOKE_PerfectlyStirredReactor/dist/
-/projects/NetBeans/OpenSMOKE_ShockTubeReactor/dist/
-projects/MSVS2015/OpenSMOKEpp_BatchReactor/BzzFile.txt
+# Test folders
+test_*
