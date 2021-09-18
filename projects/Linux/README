@@ -12,13 +12,11 @@ E. NOTE ON PERFORMANCES
 -----------------------------------------------------------------------------------
 A. COMPULSORY LIBRARIES
 -----------------------------------------------------------------------------------
-1. OpenSMOKEpp        (https://github.com/acuoci/OpenSMOKEpp.git)
-2. OpenSMOKEppSolvers (https://github.com/acuoci/OpenSMOKEppSolvers.git)
-3. Eigen              (http://eigen.tuxfamily.org/index.php?title=Main_Page)
-4. Boost C++          (http://www.boost.org/)
+1. Eigen              (http://eigen.tuxfamily.org/index.php?title=Main_Page)
+2. Boost C++          (http://www.boost.org/)
 
 -----------------------------------------------------------------------------------
-B. SUGGESTED LIBRARIES (only one of the following, they are equivalent)
+B. COMPULSORY LIBRARIES for linear algebra (only one, they are equivalent)
 -----------------------------------------------------------------------------------
 1. Intel MKL (https://software.intel.com/en-us/non-commercial-software-development)
 2. OpenBLAS  (http://www.openblas.net/)
@@ -79,14 +77,10 @@ The complete list of available options is available by typing:
 
    `./configure CXX=g++ --enable-openmp=yes \
     --prefix=/path-to-installation-folder \
-    --with-opensmoke=/path-to-opensmokepp \
     --with-eigen=/path-to-eigen \
     --with-boost-include=/path-to-boost-include \
     --with-boost-lib=/path-to-boost-lib \
-    --with-libconfig-include=/path-to-libconfig-include \
-    --with-libconfig-lib=/path-to-libconfig++.a \
-    --with-mkl=/path-to-mkl \
-    --with-ceq=/path-to-libceq.a ` 
+    --with-mkl=/path-to-mkl `
 
    If configure succeeds, all the Makefile files are available.
 

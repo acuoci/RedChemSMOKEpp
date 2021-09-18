@@ -26,30 +26,32 @@ AC_SUBST(OPENMP_INTEL)
 AC_SUBST(OPENMP_GNU)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
-# Add OpenSMOKE++ library (compulsory)
+# Add OpenSMOKE++ library (optional)
 # ---------------------------------------------------------------------------------------------------------------------------------------
+
+OPENSMOKEPP_INCLUDE_DIR="-I../../src/OpenSMOKEpp/"
+
 AC_ARG_WITH([opensmoke], [AS_HELP_STRING([--with-opensmoke=DIR], 
             [installation prefix for OpenSMOKE++ libraries])], 
-            [with_opensmoke_include_path=$with_opensmoke/source],
-	    AC_MSG_ERROR([Please use --with-opensmokepp to provide the path to OpenSMOKE++. Ask alberto.cuoci@polimi.it for the most recent version of OpenSMOKE++]))
+            [with_opensmoke_include_path=$with_opensmoke/source; OPENSMOKEPP_INCLUDE_DIR="-I$with_opensmoke_include_path"; 
 
-AC_CHECK_FILE([${with_opensmoke_include_path}/OpenSMOKEpp], [], 
-              AC_MSG_ERROR([Include file OpenSMOKEpp not found. Ask alberto.cuoci@polimi.it for the most recent version of OpenSMOKE++]))
-
-OPENSMOKEPP_INCLUDE_DIR="-I$with_opensmoke_include_path -I../../src"
+		AC_CHECK_FILE([${with_opensmoke_include_path}/OpenSMOKEpp], [], 
+	        AC_MSG_ERROR([Include file OpenSMOKEpp not found. Ask alberto.cuoci@polimi.it for the most recent version of OpenSMOKE++])) ])
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
-# Add OpenSMOKE++Solvers library (compulsory)
+# Add OpenSMOKE++Solvers library (optional)
 # ---------------------------------------------------------------------------------------------------------------------------------------
+
+OPENSMOKEPP_SOLVERS_INCLUDE_DIR="-I../../src/OpenSMOKEppSolvers/"
+
 AC_ARG_WITH([opensmoke_solvers], [AS_HELP_STRING([--with-opensmoke-solvers=DIR], 
             [installation prefix for OpenSMOKE++ solvers libraries])], 
-            [with_opensmoke_solvers_include_path=$with_opensmoke_solvers/src],
-	    AC_MSG_ERROR([Please use --with-opensmoke-solvers to provide the path to OpenSMOKE++ Solvers. Ask alberto.cuoci@polimi.it for the most recent version of OpenSMOKE++ Solvers]))
+            [with_opensmoke_solvers_include_path=$with_opensmoke_solvers/src; OPENSMOKEPP_SOLVERS_INCLUDE_DIR="-I$with_opensmoke_solvers_include_path"; 
+	    
+		AC_CHECK_FILE([${with_opensmoke_solvers_include_path}/batchreactor/BatchReactor.cpp], [], 
+              	AC_MSG_ERROR([Include file src/batchreactor/BatchReactor.cpp not found. Ask alberto.cuoci@polimi.it for the most recent version of OpenSMOKE++ Solvers])) ])
 
-AC_CHECK_FILE([${with_opensmoke_solvers_include_path}/perfectlystirredreactor/PerfectlyStirredReactor.cpp], [], 
-              AC_MSG_ERROR([Include file src/perfectlystirredreactor/PerfectlyStirredReactor.cpp not found. Ask alberto.cuoci@polimi.it for the most recent version of OpenSMOKE++ Solvers]))
 
-OPENSMOKEPP_SOLVERS_INCLUDE_DIR="-I$with_opensmoke_solvers_include_path"
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
 # Add Eigen library (compulsory)

@@ -1,31 +1,13 @@
 ./configure \
 CXX=g++ \
 --enable-openmp=yes \
---prefix=/home/chimica2/cuoci/Development/MyCodes/SeReNetSMOKEpp/exe/linux/gnu64-serial-mkl \
---with-opensmoke=/home/chimica2/cuoci/Development/MyCodes/OpenSMOKEpp \
---with-opensmoke-solvers=/home/chimica2/cuoci/Development/MyCodes/OpenSMOKEppSolvers \
---with-eigen=/software/chimica2/libraries/eigen/eigen-3.3.7/ \
+--prefix=/home/chimica2/cuoci/Development/MyCodes/RedChemSMOKEpp/exe/linux/gnu64-serial-mkl \
+--with-eigen=/software/chimica2/libraries/eigen/eigen-3.4.r1/ \
 --with-boost-include=/software/chimica2/libraries/boost/boost-1.72.0-gcc-9.2.0/include/ \
 --with-boost-lib=/software/chimica2/libraries/boost/boost-1.72.0-gcc-9.2.0/lib/ \
---with-libconfig-include=/software/chimica2/libraries/libconfig/libconfig-1.5-gcc-9.2.0/include/ \
---with-libconfig-lib=/software/chimica2/libraries/libconfig/libconfig-1.5-gcc-9.2.0/lib/libconfig++.a \
---with-mkl=/home/chimica2/cuoci/intel/mkl/ \
---with-intel-compiler=/home/chimica2/cuoci/intel/ 
+--with-mkl=/home/chimica2/cuoci/intel-2019/mkl/ 
 
 
-./configure \
-CXX=icpc \
---enable-openmp=yes \
---prefix=/home/chimica2/cuoci/Development/MyCodes/SeReNetSMOKEpp/exe/linux/intel64-serial-mkl \
---with-intel-compiler=/home/chimica2/cuoci/intel/ \
---with-opensmoke=/home/chimica2/cuoci/Development/MyCodes/OpenSMOKEpp \
---with-opensmoke-solvers=/home/chimica2/cuoci/Development/MyCodes/OpenSMOKEppSolvers \
---with-eigen=/software/chimica2/libraries/eigen/eigen-3.3.7/ \
---with-boost-include=/software/chimica2/libraries/boost/boost-1.72.0-gcc-9.2.0/include/ \
---with-boost-lib=/software/chimica2/libraries/boost/boost-1.72.0-gcc-9.2.0/lib/ \
---with-libconfig-include=/software/chimica2/libraries/libconfig/libconfig-1.5-gcc-9.2.0/include/ \
---with-libconfig-lib=/software/chimica2/libraries/libconfig/libconfig-1.5-gcc-9.2.0/lib/libconfig++.a \
---with-mkl=/home/chimica2/cuoci/intel/mkl/ 
 
 
 
