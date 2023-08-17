@@ -165,6 +165,7 @@ void PrintErrorAnalysis(const boost::filesystem::path& path_output_folder,
 	}
 
 	// Similarities between groups
+	/*
 	{
 		std::cout << " * Writing similarity file..." << std::endl;
 
@@ -200,8 +201,10 @@ void PrintErrorAnalysis(const boost::filesystem::path& path_output_folder,
 
 		fSimilarities.close();
 	}
+	*/
 
 	// Uniformity coefficients
+	/*
 	{
 		std::cout << " * Writing similarity file..." << std::endl;
 
@@ -320,6 +323,7 @@ void PrintErrorAnalysis(const boost::filesystem::path& path_output_folder,
 
 		fUniformity.close();
 	}
+	*/
 }
 
 void SelectImportantReactions(OpenSMOKE::KineticsMap_CHEMKIN& kineticsMap,

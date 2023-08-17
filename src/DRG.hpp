@@ -126,16 +126,18 @@ namespace OpenSMOKE
 		}
 	}
 
-	void DRG::SetKeySpecies(const std::vector<std::string> names_key_species)
+	void DRG::SetKeySpecies(const std::vector<std::string> names_key_species, const std::vector<double>& threshold_x_key_species)
 	{
 		index_key_species_.resize(names_key_species.size());
 		for (unsigned int i = 0; i < names_key_species.size(); i++)
 			index_key_species_[i] = thermodynamicsMapXML_.IndexOfSpecies(names_key_species[i]) - 1;
+		threshold_x_key_species_ = threshold_x_key_species;
 	}
 
-	void DRG::SetKeySpecies(const std::vector<unsigned int> key_species)
+	void DRG::SetKeySpecies(const std::vector<unsigned int> key_species, const std::vector<double>& threshold_x_key_species)
 	{
 		index_key_species_ = key_species;
+		threshold_x_key_species_ = threshold_x_key_species;
 	}
 
 	void DRG::SetEpsilon(const double epsilon)
@@ -150,10 +152,14 @@ namespace OpenSMOKE
 
 	void DRG::Analysis(const double T, const double P_Pa, const OpenSMOKE::OpenSMOKEVectorDouble& c)
 	{
+		const double cTot = c.SumElements();
+		OpenSMOKE::OpenSMOKEVectorDouble x = c; x/=cTot;
+
 		PairWiseErrorMatrix(T, P_Pa, c);
-		ParsePairWiseErrorMatrix(T);
+		ParsePairWiseErrorMatrix(T, x);
 	}
 
+	// The pairwise error matrix is calculated for all the species
 	void DRG::PairWiseErrorMatrix(const double T, const double P_Pa, const OpenSMOKE::OpenSMOKEVectorDouble& c)
 	{
 		// Now we know T, P and composition. 
@@ -167,7 +173,7 @@ namespace OpenSMOKE
 		kineticsMapXML_.ReactionRates(c.GetHandle());
 		kineticsMapXML_.GiveMeReactionRates(rNet_.GetHandle());	// [kmol/m3/s]
 
-																// Calculate the pair-wise error matrix
+		// Net reaction rates														// Calculate the pair-wise error matrix
 		r_.setZero();
 		{
 			Eigen::VectorXd numerator_(NS_);
@@ -204,8 +210,18 @@ namespace OpenSMOKE
 		}
 	}
 
-	void DRG::ParsePairWiseErrorMatrix(const double T)
+	void DRG::ParsePairWiseErrorMatrix(const double T, const OpenSMOKE::OpenSMOKEVectorDouble& x)
 	{
+		// Filtering key chemical species (index_key_species is 0-based)
+		std::vector<unsigned int> key_species_to_remove;
+		for (unsigned int i = 0; i<index_key_species_.size(); i++)
+			if (x[index_key_species_[i]+1] < threshold_x_key_species_[i])
+				key_species_to_remove.push_back(i);
+		std::reverse(key_species_to_remove.begin(), key_species_to_remove.end());
+
+		for (unsigned int i=0;i<key_species_to_remove.size();i++)
+			index_key_species_.erase(index_key_species_.begin() + key_species_to_remove[i]);
+
 		// Reset important species and important reactions
 		important_species_.assign(NS_, false);
 		important_reactions_.assign(NR_, true);

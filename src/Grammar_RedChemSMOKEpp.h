@@ -66,6 +66,11 @@ namespace OpenSMOKE
 																"Name of folder where to write results",
 																true));
 
+                        AddKeyWord(OpenSMOKE::OpenSMOKE_DictionaryKeyWord("@WriteKineticMechanisms",
+                                                                                                                                OpenSMOKE::SINGLE_BOOL,
+                                                                                                                                "Write kinetic mechanisms (default: true)",
+                                                                                                                                false));
+
 			AddKeyWord(OpenSMOKE::OpenSMOKE_DictionaryKeyWord("@DRG",
 																OpenSMOKE::SINGLE_BOOL,
 																"DRG Analysis",
@@ -104,7 +109,12 @@ namespace OpenSMOKE
 			AddKeyWord(OpenSMOKE::OpenSMOKE_DictionaryKeyWord("@KeySpecies",
 																OpenSMOKE::VECTOR_STRING, 
 																"List of key species", 
-																true) );	
+																true) );
+
+			AddKeyWord(OpenSMOKE::OpenSMOKE_DictionaryKeyWord("@KeySpeciesMoleFractionThreshold",
+																OpenSMOKE::VECTOR_DOUBLE, 
+																"List of mole fraction threshold key species", 
+																true) );		
 
 
 			// Diffusion map analysis

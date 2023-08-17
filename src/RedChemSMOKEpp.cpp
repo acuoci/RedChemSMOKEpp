@@ -140,6 +140,11 @@ int main(int argc, char** argv)
 			OpenSMOKE::CreateDirectory(path_output_folder);
 	}
 
+        // Write kinetic mechanisms
+        bool iWriteKineticMechanisms = true;
+        if (dictionaries(main_dictionary_name_).CheckOption("@WriteKineticMechanisms") == true)
+        	dictionaries(main_dictionary_name_).ReadBool("@WriteKineticMechanisms", iWriteKineticMechanisms);
+
 	// DRG Analysis
 	bool iDRG = false;
 	if (dictionaries(main_dictionary_name_).CheckOption("@DRG") == true)
@@ -196,6 +201,12 @@ int main(int argc, char** argv)
 	std::vector<std::string> key_species;
 	if (dictionaries(main_dictionary_name_).CheckOption("@KeySpecies") == true)
 		dictionaries(main_dictionary_name_).ReadOption("@KeySpecies", key_species);
+
+	// List of key species mole fraction threshold
+	std::vector<double> key_species_threshold_x;
+	if (dictionaries(main_dictionary_name_).CheckOption("@KeySpeciesMoleFractionThreshold") == true)
+		dictionaries(main_dictionary_name_).ReadOption("@KeySpeciesMoleFractionThreshold", key_species_threshold_x);
+
 
 	// Diffusion map analysis
 	bool iDiffusionMapAnalysis = false;
@@ -608,7 +619,7 @@ int main(int argc, char** argv)
 			OpenSMOKE::DRG drg(thermodynamicsMap, kineticsMap);
 			for (int j = 0; j < ndata; j++)
 			{
-				drg.SetKeySpecies(key_species);
+				drg.SetKeySpecies(key_species, key_species_threshold_x);
 				drg.SetEpsilon(epsilon);
 				//drg.SetEpsilon(EpsilonDRG(T(j)));		// TODO
 				drg.SetTemperatureThreshold(T_threshold);
@@ -634,8 +645,14 @@ int main(int argc, char** argv)
 				}
 
 				if ((j + 1) % 1000 == 1)
+				{
 					std::cout << j << "/" << ndata << " T: " << T(j) << " Species: " << number_important_species(j) << " Eps: " << epsilon << std::endl;
 	//				std::cout << j << "/" << ndata << " T: " << T(j) << " Species: " << number_important_species(j) << " Eps: " << EpsilonDRG(T(j)) << std::endl;
+					
+					std::cout	<< " * Key species: " << drg.index_key_species().size() << std::endl;
+					for (unsigned int i=0;i< drg.index_key_species().size();i++)
+						std:: cout << "   " << thermodynamicsMap->NamesOfSpecies()[drg.index_key_species()[i]] << " " << x[drg.index_key_species()[i]+1] << std::endl;
+				}
 			}
 
 			// Post processing analysis
@@ -657,16 +674,19 @@ int main(int argc, char** argv)
 			SelectImportantReactions(*kineticsMap, retained_species, retained_reactions);
 
 			// Write kinetic mechanisms
-			WriteKineticMechanisms(*thermodynamicsMap, *kineticsMap,
-									path_drg_output_folder, chemkin_thermodynamics_file, chemkin_kinetics_file,
-									retained_species, retained_reactions);
-
-			// Preprocess kinetic mechanisms
-			if (iTransport == true)
+			if (iWriteKineticMechanisms == true)
 			{
-				PreprocessKineticMechanisms(nclusters, path_drg_output_folder,
-											chemkin_thermodynamics_file, 
-											chemkin_transport_file);
+				WriteKineticMechanisms(*thermodynamicsMap, *kineticsMap,
+							path_drg_output_folder, chemkin_thermodynamics_file, chemkin_kinetics_file,
+							retained_species, retained_reactions);
+
+				// Preprocess kinetic mechanisms
+				if (iTransport == true)
+				{
+					PreprocessKineticMechanisms(nclusters, 	path_drg_output_folder,
+										chemkin_thermodynamics_file, 
+										chemkin_transport_file);
+				}
 			}
 		}
 
@@ -720,10 +740,11 @@ int main(int argc, char** argv)
 						}
 
 						if (jLocal == 0)
-							std::cout	<< "Group: " << jj << "/" << nclusters 
+						{	std::cout	<< "Group: " << jj << "/" << nclusters 
 										<< " T: " << T(j) 
 										<< " Species: " << number_important_species(j) 
 										<< " Eps: " << epsilon << std::endl;
+						}
 						
 						if (jLocal % 1000 == 0)
 							std::cout << " - processing " << jLocal + 1 << " out of " << belonging[jj - 1].size() << std::endl;

@@ -33,13 +33,13 @@ namespace OpenSMOKE
 		*@brief Sets the key-species (i.e. the target species which are considered important)
 		*@param names_key_species vector containing the names of target or key species (0-index based)
 		*/
-		void SetKeySpecies(const std::vector<std::string> names_key_species);
+		void SetKeySpecies(const std::vector<std::string> names_key_species, const std::vector<double>& threshold_x_key_species);
 
 		/**
 		*@brief Sets the key-species (i.e. the target species which are considered important)
 		*@param names_key_species vector containing the indices of target or key species (0-index based)
 		*/
-		void SetKeySpecies(const std::vector<unsigned int> indices_key_species);
+		void SetKeySpecies(const std::vector<unsigned int> indices_key_species, const std::vector<double>& threshold_x_key_species);
 
 		/**
 		*@brief Sets the threshold
@@ -101,6 +101,8 @@ namespace OpenSMOKE
 		*/
 		double T_threshold() const { return T_threshold_; }
 
+		const std::vector<unsigned int>& index_key_species() const { return index_key_species_; }	
+
 	private:
 
 		/**
@@ -115,7 +117,7 @@ namespace OpenSMOKE
 		*@brief Analyzes the pair wise error matrix and calculates (internally) the important_species vector
 		*@param T temperature in K
 		*/
-		void ParsePairWiseErrorMatrix(const double T);
+		void ParsePairWiseErrorMatrix(const double T, const OpenSMOKE::OpenSMOKEVectorDouble& x);
 
 	private:
 
@@ -123,6 +125,7 @@ namespace OpenSMOKE
 		OpenSMOKE::KineticsMap_CHEMKIN& kineticsMapXML_;		/**< reference to the kinetics map */
 
 		std::vector<unsigned int> index_key_species_;				/**< indices of target or key species (zero-based) */
+		std::vector<double> threshold_x_key_species_ ;				
 
 		std::vector<bool> important_species_;					/**< boolean vector indicating important and unimportant species (zero-based) */
 		std::vector<bool> important_reactions_;					/**< boolean vector indicating important and unimportant reactions (zero-based) */
